@@ -7,8 +7,10 @@ console.log("node is running");
 
 //we add some instructions using express
 
-//we load express and we save it in a variable
+//we load express and we save it in a variable -> to create a local virtual server
 let express = require("express");
+//we load also socket -> to let the info exchange bewteen client and sever
+let socket = require("socket.io");
 
 // we activate the module by activating it
 let app = express();
@@ -23,4 +25,15 @@ let server = app.listen(port);
 //we are saying to express
 app.use(express.static("public"));
 
-//we want to send p5 to our client, a sketch and index
+//we want to send p5 to our client, a sketch and index... everything did by the p5 toggle bar
+//we want to create a socket that allows info exchange
+
+// we create input/output variable
+let io = socket(server);
+
+io.on("connection", newConnection);
+
+//this function is executed each time a new Connection is created
+function newConnection(socket){
+  console.log("new connection: " + socket.client.id); 
+}
